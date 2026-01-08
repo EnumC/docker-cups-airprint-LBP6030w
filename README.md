@@ -10,6 +10,31 @@
 [![Paypal](https://img.shields.io/badge/donate-paypal-00457c.svg?logo=paypal)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FTXDN7LCDWUEA&source=url)
 [![GitHub Sponsor](https://img.shields.io/badge/github-sponsor-blue?logo=github)](https://github.com/sponsors/DrPsychick)
 
+## Quickstart
+This fork adds the Canon LBP113 LBP151 LBP6030 LBP6230 LBP7110 CUPS driver. Also fixed LBP6030 driver to report greyscale only. Use the `compose.yaml` and replace the following placeholder fields:
+- `ipv4_address: 192.168.85.10` (replace with the desired IP for the airprint server)
+- `CUPS_ADMIN_PASSWORD: ABCDEFG-INSECURE`
+- `CUPS_LPADMIN_PRINTER1: lpadmin -p PlaceholderPrinterName -D 'Put a description here' -m 'lsb/usr/CNRCUPSLBP6030ZNS.ppd' -v socket://192.168.4.141` (replace with printer IP and also set printer name and description)
+- `driver_opts:`
+  `    parent: enp6s18` (Replace enp6s18 with the docker host's network interface)
+
+- Replace network config with your own:
+```
+  ipam:
+      config:
+        - subnet: 192.168.84.0/22
+          gateway: 192.168.84.1
+          ip_range: 192.168.85.10/32
+  ```
+- `TZ: America/Los_Angeles` (replace with your timezone)
+
+Included drivers:
+- CNRCUPSLBP113ZNS.ppd
+- CNRCUPSLBP6030ZNS.ppd
+- CNRCUPSLBP7110CZNS.ppd
+- CNRCUPSLBP151ZNS.ppd
+- CNRCUPSLBP6230ZNS.ppd
+
 ## Purpose
 Run a container with CUPS and Avahi (mDNS/Bonjour) so that local printers
 on the network can be exposed via AirPrint to iOS/macOS devices.

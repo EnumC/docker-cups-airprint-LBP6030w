@@ -81,5 +81,8 @@ ENV TZ="GMT" \
 
 COPY cnrdrvcups-ufr2lt-us_5.00-1_amd64.deb /root/
 RUN apt install -y /root/cnrdrvcups-ufr2lt-us_5.00-1_amd64.deb
+# overwrite the default LBP6030 PPD with fixed Black-and-White LBP6030 PPD.
+COPY ppd/CNRCUPSLBP6030ZNS.ppd /usr/share/cups/model/CNRCUPSLBP6030ZNS.ppd
+RUN chmod 777 /usr/share/cups/model/CNRCUPSLBP6030ZNS.ppd
 
 ENTRYPOINT ["/root/start-cups.sh"]

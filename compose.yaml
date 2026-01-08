@@ -1,0 +1,32 @@
+services:
+  airprint:
+    # image: drpsychick/airprint-bridge:latest
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    networks:
+      airprint-macvlan:
+        ipv4_address: 192.168.85.10
+    hostname: mycups
+    environment:
+      AVAHI_IPV6: yes
+      CUPS_ADMIN_USER: admin
+      CUPS_ADMIN_PASSWORD: ABCDEFG-INSECURE
+      CUPS_LPADMIN_PRINTER1: lpadmin -p PlaceholderPrinterName -D 'Put a description here' -m
+        'lsb/usr/CNRCUPSLBP6030ZNS.ppd' -v socket://192.168.4.141
+      CUPS_LPADMIN_PRINTER1_ACCEPT: cupsaccept PlaceholderPrinterName
+      CUPS_LPADMIN_PRINTER1_ENABLE: cupsenable PlaceholderPrinterName
+      CUPS_REMOTE_ADMIN: yes
+      CUPS_WEBINTERFACE: yes
+      TZ: America/Los_Angeles
+    restart: on-failure:5
+networks:
+  airprint-macvlan:
+    driver: macvlan
+    driver_opts:
+      parent: enp6s18
+    ipam:
+      config:
+        - subnet: 192.168.84.0/22
+          gateway: 192.168.84.1
+          ip_range: 192.168.85.10/32

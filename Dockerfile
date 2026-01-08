@@ -79,4 +79,7 @@ ENV TZ="GMT" \
     # example: lpadmin -p Epson-RX520 -D 'my RX520' -m 'gutenprint.5.3://escp2-rx620/expert' -v smb://user:pass@host/Epson-RX520"
     CUPS_LPADMIN_PRINTER1=""
 
+COPY cnrdrvcups-ufr2lt-us_5.00-1_amd64.deb /root/
+RUN apt install -y /root/cnrdrvcups-ufr2lt-us_5.00-1_amd64.deb
+
 ENTRYPOINT ["/root/start-cups.sh"]
